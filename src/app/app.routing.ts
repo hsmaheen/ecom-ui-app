@@ -7,6 +7,7 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
 
 export const AppRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: '', component: ProductListComponent },
   { path: 'catalog', component: ProductListComponent },
   { path: 'cart', component: CartProductsComponent },
   { path: 'details/:id', component: ProductDetailsComponent }

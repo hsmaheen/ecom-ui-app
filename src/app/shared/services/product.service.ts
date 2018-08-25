@@ -35,7 +35,7 @@ export class ProductService {
       .pipe(map((postData) => {
         return postData.products.map(post => {
           return {
-            $key: post._id,
+            productUID: post._id,
             productId: post.productId,
             productName: post.productName,
             productCategory: post.productCategory,
@@ -64,7 +64,7 @@ export class ProductService {
         console.log(postData);
         const post = postData.product;
         return {
-          $key: post._id,
+          productUID: post._id,
           productId: post.productId,
           productName: post.productName,
           productCategory: post.productCategory,

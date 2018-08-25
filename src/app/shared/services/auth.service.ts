@@ -15,7 +15,8 @@ export class AuthService {
     this.userObservable.subscribe(u => {
       if (u) {
         this.userDetails = u;
-        console.log(this.userDetails);
+        console.log(this.userDetails.uid);
+        localStorage.setItem('userID', this.userDetails.uid);
       } else {
         this.userDetails = null;
       }

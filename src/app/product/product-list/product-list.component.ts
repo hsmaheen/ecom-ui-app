@@ -3,6 +3,8 @@ import { Product } from '../../shared/models/product';
 import { AuthService } from '../../shared/services/auth.service';
 import { ProductService } from '../../shared/services/product.service';
 import { Subscription } from 'rxjs';
+import { OrderService } from '../../shared/services/order.service';
+import { Order } from '../../shared/models/order';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private productService: ProductService,
+    private orderService: OrderService
     // private spinnerService: LoaderSpinnerService
   ) { }
 
@@ -36,10 +39,20 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-
+    const userID = localStorage.getItem('userID');
+    const products: Product[] = [];
+    products.push(product);
     this.productService.addProductToCart(product);
+    // this.orderService.addToCart(userID, products)
+    //   .subscribe((order) => {
+    //     console.log(order);
+    //     order.products.forEach((prod) => {
+    //       this.productService.addProductToCart(prod);
+
+    //     });
 
 
+    //   });
 
   }
 
