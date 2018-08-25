@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { AuthService } from './auth.service';
 
@@ -14,9 +14,6 @@ export class ProductService {
   cartCount = 0;
   private productsUpdated = new Subject<Product[]>();
 
-  /**
-   *
-   */
   constructor(private http: HttpClient,
     private authService: AuthService,
     private toastyService: ToastyService) {
@@ -32,11 +29,11 @@ export class ProductService {
 
   getProducts() {
     this.http
-      .get<{ message: string; posts: any }>(
+      .get<{ message: string; products: any }>(
         'http://localhost:3000/api/products'
       )
       .pipe(map((postData) => {
-        return postData.posts.map(post => {
+        return postData.products.map(post => {
           return {
             $key: post._id,
             productId: post.productId,
@@ -48,7 +45,8 @@ export class ProductService {
             productAdded: post.productAdded,
             productQuatity: post.productQuatity,
             ratings: post.ratings,
-            productSeller: post.productSeller
+            productSeller: post.productSeller,
+            cartQty: 1
           };
         });
       }))
@@ -59,31 +57,36 @@ export class ProductService {
       });
   }
 
-  getProductsUpdateListener() {
-    return this.productsUpdated.asObservable();
+  getProductById(id: string): Observable<Product> {
+    return this.http
+      .get<{ message: string; product: any }>('http://localhost:3000/api/products/' + id)
+      .pipe(map((postData) => {
+        console.log(postData);
+        const post = postData.product;
+        return {
+          $key: post._id,
+          productId: post.productId,
+          productName: post.productName,
+          productCategory: post.productCategory,
+          productPrice: post.productPrice,
+          productDescription: post.productDescription,
+          productImageUrl: post.productImageUrl,
+          productAdded: post.productAdded,
+          productQuatity: post.productQuatity,
+          ratings: post.ratings,
+          productSeller: post.productSeller,
+          cartQty: 1
+        };
+
+      }))
+      .map(transformedData => {
+        return transformedData as Product;
+      });
+
   }
 
-  getProductsOld() {
-    this.http
-      .get<{ message: string; products: any }>(
-        'http://localhost:3000/api/products'
-      )
-      .subscribe((data) => {
-        console.log(data);
-      });
-    // .pipe(map((postData) => {
-    //   return postData.posts.map(post => {
-    //     return {
-    //       title: post.title,
-    //       content: post.content,
-    //       id: post._id
-    //     };
-    //   });
-    // }))
-    // .subscribe(transformedPosts => {
-    //   this.posts = transformedPosts;
-    //   this.postsUpdated.next([...this.posts]);
-    // });
+  getProductsUpdateListener() {
+    return this.productsUpdated.asObservable();
   }
 
   addProductToCart(product: Product) {
@@ -91,7 +94,20 @@ export class ProductService {
 
     localProducts = JSON.parse(localStorage.getItem('local_prods')) || [];
 
-    localProducts.push(product);
+    if (localProducts.length === 0) {
+      localProducts.push(product);
+
+    } else {
+
+      const existingProd = localProducts.find(p => p.productId === product.productId);
+      if (existingProd !== null && existingProd !== undefined) {
+        existingProd.cartQty = existingProd.cartQty + 1;
+
+      }
+
+    }
+
+
 
     const toastOption: ToastOptions = {
       title: 'Adding Product to Cart',
@@ -111,7 +127,6 @@ export class ProductService {
   getLocalCartProducts(): Product[] {
     const products: Product[] =
       JSON.parse(localStorage.getItem('local_prods')) || [];
-
     return products;
   }
 

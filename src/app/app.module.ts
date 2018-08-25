@@ -12,6 +12,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CartProductsComponent } from './product/cart-products/cart-products.component';
+import { CartSummaryComponent } from './product/cart-summary/cart-summary.component';
+import { ProductDetailsComponent } from './product/product-details/product-details.component';
 
 
 
@@ -21,7 +23,9 @@ import { CartProductsComponent } from './product/cart-products/cart-products.com
     NavbarComponent,
     LoginComponent,
     ProductListComponent,
-    CartProductsComponent
+    CartProductsComponent,
+    CartSummaryComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,

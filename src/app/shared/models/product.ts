@@ -11,4 +11,5 @@ export class Product {
   ratings: number;
   favourite: boolean;
   productSeller: string;
+  cartQty = 1;
 }

@@ -43,31 +43,4 @@ export class ProductListComponent implements OnInit {
 
   }
 
-
-
-  // getAllProducts() {
-  //   // this.spinnerService.show();
-  //   const x = this.productService.getProducts();
-  //   x.snapshotChanges().subscribe(product => {
-  //     // this.spinnerService.hide();
-  //     this.productList = [];
-  //     product.forEach(element => {
-  //       const y = element.payload.toJSON();
-  //       y['$key'] = element.key;
-  //       this.productList.push(y as Product);
-  //     });
-  //   });
-  // }
-
-  // removeProduct(key: string) {
-  //   this.productService.deleteProduct(key);
-  // }
-
-  // addFavourite(product: Product) {
-  //   this.productService.addFavouriteProduct(product);
-  // }
-
-  // addToCart(product: Product) {
-  //   this.productService.addToCart(product);
-  // }
 }

@@ -20,7 +20,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="jaascript:;;" [routerLink]="[ '/products/all-products' ]">Our Products</a>
+        <a class="nav-link" href="jaascript:;;" [routerLink]="[ '/catalog' ]">Catalog</a>
       </li>
       <!-- <li class="nav-item">
         <a class="nav-link" href="#">Pricing</a>
@@ -41,18 +41,12 @@
       </li>
       <li class="nav-item">
         <div>
-          <a class="nav-link" href="javascript:;;" [routerLink]="['/products/cart-items']">
+          <a class="nav-link" href="javascript:;;" [routerLink]="['/cart']">
             <i class="fa fa-shopping-cart">
               <span class="mt-2"> {{productService.cartCount}}</span>
             </i>
           </a>
         </div>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="javascript:;;">
-          <i class="fa fa-envelope"></i> Contact
-          <span class="sr-only">(current)</span>
-        </a>
       </li>
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a class="nav-link" [routerLink]="['/users']">
