@@ -5,11 +5,13 @@ import { map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable()
 export class ProductService {
 
+  catalogAPIUrl = environment.catalogAPIUrl;
   products: Product[] = [];
   cartCount = 0;
   private productsUpdated = new Subject<Product[]>();
@@ -28,9 +30,10 @@ export class ProductService {
   }
 
   getProducts() {
+    const getProductsUrl = 'api/products/';
     this.http
-      .get<{ message: string; products: any }>(
-        'http://localhost:3000/api/products'
+      .get<{ products: any }>(
+        this.catalogAPIUrl + getProductsUrl
       )
       .pipe(map((postData) => {
         return postData.products.map(post => {
@@ -58,8 +61,9 @@ export class ProductService {
   }
 
   getProductById(id: string): Observable<Product> {
+    const getProductUrl = 'api/products/';
     return this.http
-      .get<{ message: string; product: any }>('http://localhost:3000/api/products/' + id)
+      .get<{ message: string; product: any }>(this.catalogAPIUrl + getProductUrl + id)
       .pipe(map((postData) => {
         console.log(postData);
         const post = postData.product;
