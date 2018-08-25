@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -45,6 +45,7 @@
     "ngx-pagination": "^3.1.1",
     "node-sass": "^4.9.2",
     "owl.carousel": "^2.3.4",
+    "path": "^0.12.7",
     "primeng": "^5.2.5",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.1.0",
