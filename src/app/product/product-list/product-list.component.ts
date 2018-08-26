@@ -42,17 +42,17 @@ export class ProductListComponent implements OnInit {
     const userID = localStorage.getItem('userID');
     const products: Product[] = [];
     products.push(product);
-    this.productService.addProductToCart(product);
-    // this.orderService.addToCart(userID, products)
-    //   .subscribe((order) => {
-    //     console.log(order);
-    //     order.products.forEach((prod) => {
-    //       this.productService.addProductToCart(prod);
 
-    //     });
-
-
-    //   });
+    if (userID === null || userID === undefined) {
+      this.productService.addProductToLocalCart(product);
+    } else {
+      this.orderService.addToCart(userID, products)
+        .subscribe((data) => {
+          if (data !== null && data !== undefined) {
+            this.productService.addProductToLocalCart(product);
+          }
+        });
+    }
 
   }
 

@@ -93,7 +93,7 @@ export class ProductService {
     return this.productsUpdated.asObservable();
   }
 
-  addProductToCart(product: Product) {
+  addProductToLocalCart(product: Product) {
     let localProducts: Product[];
 
     localProducts = JSON.parse(localStorage.getItem('local_prods')) || [];

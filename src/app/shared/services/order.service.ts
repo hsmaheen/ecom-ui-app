@@ -25,16 +25,14 @@ export class OrderService {
       });
   }
 
-  removeFromCart(userId: string, productIds: String[]) {
+  removeFromCart(userId: string, productIds: Number[]): Observable<Order> {
     const order = { userId: userId, productIds: productIds };
     const addToCartUrl = 'order/cart/remove';
-    this.http
+    return this.http
       .post(this.orderApi + addToCartUrl, order)
-      .subscribe((data) => {
-        console.log(data);
+      .map((data) => {
+        return data as Order;
       });
   }
-
-
 
 }
