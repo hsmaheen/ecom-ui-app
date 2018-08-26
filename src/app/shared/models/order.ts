@@ -1,14 +1,14 @@
 import { Product } from './product';
 
 export class Order {
-  orderId: string;
-  userId: string;
-  status: string;
-  products: Product[];
-  paymentMode: string;
-  transactionId: string;
-  orderAddress: string;
-  orderPostalCode: string;
+  orderId: String = '';
+  userId: String = '';
+  status: String = '';
+  products: Product[] = [];
+  paymentMode: String = '';
+  transactionId: String = '';
+  orderAddress: String = '';
+  orderPostalCode: String = '';
   createdAt: Date;
   updatedAt: Date;
 }

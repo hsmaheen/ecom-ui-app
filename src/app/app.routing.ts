@@ -10,5 +10,9 @@ export const AppRoutes: Routes = [
   { path: '', component: ProductListComponent },
   { path: 'catalog', component: ProductListComponent },
   { path: 'cart', component: CartProductsComponent },
-  { path: 'details/:id', component: ProductDetailsComponent }
+  { path: 'details/:id', component: ProductDetailsComponent },
+  {
+    path: 'checkout',
+    loadChildren: './product/checkout/checkout.module#CheckoutModule'
+  }
 ];

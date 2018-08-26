@@ -4,6 +4,8 @@ import { ToastyService, ToastOptions, ToastyConfig } from 'ng2-toasty';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { User } from '../shared/models/user';
+import { ProductService } from '../shared/services/product.service';
+import { OrderService } from '../shared/services/order.service';
 
 
 // import { UserService } from '../../shared/services/user.service';
@@ -32,7 +34,9 @@ export class LoginComponent implements OnInit {
     private toastyService: ToastyService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastyConfig: ToastyConfig
+    private toastyConfig: ToastyConfig,
+    private prodSvc: ProductService,
+    private orderSvc: OrderService
   ) {
     this.toastyConfig.position = 'top-right';
     this.toastyConfig.theme = 'material';
@@ -40,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.createUser = new User();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   addUser(userForm: NgForm) {
     userForm.value['isAdmin'] = false;
@@ -75,6 +79,12 @@ export class LoginComponent implements OnInit {
       .signInRegular(userForm.value['emailId'], userForm.value['loginPassword'])
       .then(res => {
         console.log('Logged In: ', res);
+        this.authService.userObservable
+          .subscribe(() => {
+            this.orderSvc.getCartItemforUser();
+          });
+
+
 
         const toastOption: ToastOptions = {
           title: 'Authentication Success',
@@ -85,6 +95,7 @@ export class LoginComponent implements OnInit {
         };
         this.toastyService.wait(toastOption);
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
 
         setTimeout((router: Router) => {
           this.router.navigate([returnUrl || '/']);

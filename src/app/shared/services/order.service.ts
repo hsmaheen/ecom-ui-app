@@ -3,41 +3,67 @@ import { Product } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Order } from '../models/order';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductService } from './product.service';
-import { map } from 'rxjs/operators';
-
 
 @Injectable()
 export class OrderService {
   orderApi = environment.orderApiUrl;
+  private orderSubject = new Subject<Order>();
+  private customerOrder: Order = new Order();
 
   constructor(private http: HttpClient,
     private authSvc: AuthService,
     private productSvc: ProductService) {
 
+    this.orderListener()
+      .subscribe((orderData) => {
+        if ((orderData !== null) || (orderData !== undefined)) {
+          this.customerOrder = orderData;
+        }
+      });
+
     if (this.authSvc.isLoggedIn()) {
       console.log('Logged in');
       const userID = localStorage.getItem('userID');
-      this.getCartItemsByUserId(userID);
+      // this.getCartItemsByUserId(userID);
 
       // this.calculateLocalCartProdCounts();
     } else {
-      console.log('Not Logged in');
+      //  console.log('Not Logged in');
       // this.calculateLocalCartProdCounts();
     }
 
   }
 
-  getCartItemsByUserId(userId: string) {
+  orderListener() {
+    return this.orderSubject.asObservable();
+  }
+
+  updatedOrderSubject(order: Order) {
+    console.log('Updating data');
+    this.orderSubject.next(order);
+  }
+
+  getCartItemforUser() {
+    const userID = localStorage.getItem('userID');
+    this.getCartItemsByUserId(userID)
+      .subscribe((order) => {
+        order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
+        this.productSvc.getLocalCartProducts();
+      });
+
+  }
+
+  getCartItemsByUserId(userId: string): Observable<Order> {
     const getCartItemsUrl = 'order/new/' + userId;
     console.log(this.orderApi + getCartItemsUrl);
     return this.http
       .get<{ order: Order }>(this.orderApi + getCartItemsUrl)
-      .subscribe((data) => {
-        data.order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
-        this.productSvc.getLocalCartProducts();
+      .map((data) => {
+        return data.order;
+
       });
 
   }
@@ -62,6 +88,12 @@ export class OrderService {
       .map((data) => {
         return data as Order;
       });
+  }
+
+  satisfyOrder() {
+    console.log('Satisfy');
+    console.log(this.customerOrder);
+
   }
 
 }

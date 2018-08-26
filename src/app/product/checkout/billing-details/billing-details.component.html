@@ -1,3 +1,42 @@
-<p>
-  billing-details works!
-</p>
+<div class="container">
+  <div class="col-md order-md-1">
+    <div class="row">
+      <h4 class="mb-3">Payment</h4>
+    </div>
+    <form class="needs-validation" #creditCardDetails="ngForm" (ngSubmit)="makePayment(creditCardDetails)">
+
+
+      <div class="row">
+        <div class="md-form col-md-6">
+          <input mdbInputDirective type="text" id="address" class="form-control" required name="nameOnCard" [(ngModel)]="crediCard.nameOnCard"
+            mdbInputValidate>
+          <label for="nameOnCard">Name on Card</label>
+        </div>
+
+        <div class="md-form col-md-3">
+          <input mdbInputDirective type="number" id="address" class="form-control" required name="creditCardNumber" [(ngModel)]="crediCard.creditCardNumber"
+            mdbInputValidate>
+          <label for="creditCardNumber">Credit card Number</label>
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="md-form col-md-3 mb-3">
+          <input mdbInputDirective type="number" placeholder="MMYYY" class="form-control" required name="expiration" [(ngModel)]="crediCard.expiration"
+            mdbInputValidate>
+          <label for="expiration">Expiration</label>
+        </div>
+
+        <div class="md-form col-md-3 mb-3">
+          <input mdbInputDirective type="number" class="form-control" required name="cvv" [(ngModel)]="crediCard.cvv" mdbInputValidate>
+          <label for="cvv">CVV</label>
+        </div>
+
+      </div>
+
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Make Payment</button>
+    </form>
+  </div>

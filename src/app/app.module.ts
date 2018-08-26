@@ -15,6 +15,7 @@ import { CartProductsComponent } from './product/cart-products/cart-products.com
 import { CartSummaryComponent } from './product/cart-summary/cart-summary.component';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { CheckoutModule } from './product/checkout/checkout.module';
+import { CheckoutRoutingModule } from './product/checkout/checkout.routing';
 
 
 

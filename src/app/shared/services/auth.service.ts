@@ -54,6 +54,33 @@ export class AuthService {
 
   getLoggedInUser(): User {
     const loggedUser: User = new User();
+    this.firebaseAuth.auth.onAuthStateChanged((user) => {
+
+      if (user) {
+        this.userDetails = user;
+        if (user != null) {
+          loggedUser.$key = user.uid;
+          loggedUser.userName = user.displayName;
+          loggedUser.emailId = user.email;
+          loggedUser.phoneNumber = user.phoneNumber;
+          loggedUser.avatar = user.photoURL;
+          loggedUser.isAdmin = user.email === 'admin@gmail.com' ? true : false;
+          localStorage.setItem('userID', this.userDetails.uid);
+        }
+      } else {
+        this.userDetails = null;
+      }
+
+
+    });
+
+    return loggedUser;
+  }
+
+
+
+  getLoggedInUserByUID(): User {
+    const loggedUser: User = new User();
     const user = this.firebaseAuth.auth.currentUser;
 
     if (user) {
@@ -71,5 +98,6 @@ export class AuthService {
     }
 
     return loggedUser;
+
   }
 }
