@@ -10,6 +10,7 @@ import { FireBaseConfig } from '../../environments/firebaseConfig';
 import { ToastyModule } from 'ng2-toasty';
 import { ProductService } from './services/product.service';
 import { OrderService } from './services/order.service';
+import { PaymentService } from './services/payment.service';
 
 
 
@@ -36,6 +37,7 @@ import { OrderService } from './services/order.service';
     AuthService,
     ProductService,
     OrderService,
+    PaymentService,
     FormBuilder
   ]
 

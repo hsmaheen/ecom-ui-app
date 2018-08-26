@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   // orderApiUrl: 'http://localhost:4000/',
   catalogAPIUrl: 'https://ecom-catalog-api.herokuapp.com/',
-  orderApiUrl: 'https://ecom-order-api.herokuapp.com/'
+  orderApiUrl: 'https://ecom-order-api.herokuapp.com/',
+  paymentApiUrl: 'https://ecom-payment-api.herokuapp.com/'
 
 };
 

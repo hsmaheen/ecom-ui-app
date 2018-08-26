@@ -50,8 +50,10 @@ export class OrderService {
     const userID = localStorage.getItem('userID');
     this.getCartItemsByUserId(userID)
       .subscribe((order) => {
-        order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
-        this.productSvc.getLocalCartProducts();
+        if (order !== null) {
+          order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
+          this.productSvc.getLocalCartProducts();
+        }
       });
 
   }
