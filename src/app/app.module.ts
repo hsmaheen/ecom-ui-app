@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CartProductsComponent } from './product/cart-products/cart-products.component';
 import { CartSummaryComponent } from './product/cart-summary/cart-summary.component';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
+import { CheckoutModule } from './product/checkout/checkout.module';
 
 
 
@@ -33,7 +34,8 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
     MDBBootstrapModule.forRoot(),
     SharedModule,
     RouterModule.forRoot(AppRoutes),
-    HttpClientModule
+    HttpClientModule,
+    CheckoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],

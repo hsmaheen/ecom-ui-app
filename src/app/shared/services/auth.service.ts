@@ -50,4 +50,25 @@ export class AuthService {
   logout() {
     this.firebaseAuth.auth.signOut().then(res => this.router.navigate(['/']));
   }
+
+  getLoggedInUser(): User {
+    const loggedUser: User = new User();
+    const user = this.firebaseAuth.auth.currentUser;
+
+    if (user) {
+      this.userDetails = user;
+      if (user != null) {
+        loggedUser.$key = user.uid;
+        loggedUser.userName = user.displayName;
+        loggedUser.emailId = user.email;
+        loggedUser.phoneNumber = user.phoneNumber;
+        loggedUser.avatar = user.photoURL;
+        loggedUser.isAdmin = user.email === 'admin@gmail.com' ? true : false;
+      }
+    } else {
+      this.userDetails = null;
+    }
+
+    return loggedUser;
+  }
 }

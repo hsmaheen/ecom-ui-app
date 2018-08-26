@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
   logout() {
+    localStorage.clear();
     this.authService.logout();
     this.router.navigate(['/']);
   }
