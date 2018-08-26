@@ -40,7 +40,8 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    if (this.userDetails == null) {
+    const userID = localStorage.getItem('userID');
+    if (userID == null) {
       return false;
     } else {
       return true;

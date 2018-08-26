@@ -28,11 +28,13 @@ export class CartProductsComponent implements OnInit {
     productIds.push(product.productId);
     if (userID === null || userID === undefined) {
       this.productService.removeLocalCartProduct(product);
+      this.getCartProduct();
     } else {
       this.orderSvc.removeFromCart(userID, productIds)
         .subscribe((data) => {
           if (data !== null && data !== undefined) {
             this.productService.removeLocalCartProduct(product);
+            this.getCartProduct();
           }
         });
     }
@@ -41,7 +43,6 @@ export class CartProductsComponent implements OnInit {
 
 
     // Recalling
-    this.getCartProduct();
   }
 
   getCartProduct() {
