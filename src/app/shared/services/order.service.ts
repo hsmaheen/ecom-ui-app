@@ -11,7 +11,7 @@ import { ProductService } from './product.service';
 export class OrderService {
   orderApi = environment.orderApiUrl;
   private orderSubject = new Subject<Order>();
-  private customerOrder: Order = new Order();
+  public customerOrder: Order = new Order();
 
   constructor(private http: HttpClient,
     private authSvc: AuthService,
@@ -27,6 +27,16 @@ export class OrderService {
     if (this.authSvc.isLoggedIn()) {
       console.log('Logged in');
       const userID = localStorage.getItem('userID');
+      this.getCartItemforUser()
+        .subscribe((order) => {
+          if (order) {
+            order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
+          } else {
+            console.log("Clearing cart");
+            localStorage.setItem('local_prods', null);
+            this.productSvc.cartCount = 0;
+          }
+        });
       // this.getCartItemsByUserId(userID);
 
       // this.calculateLocalCartProdCounts();
@@ -46,17 +56,17 @@ export class OrderService {
     this.orderSubject.next(order);
   }
 
-  getCartItemforUser() {
+  getCartItemforUser(): Observable<Order> {
     const userID = localStorage.getItem('userID');
-    this.getCartItemsByUserId(userID)
-      .subscribe((order) => {
-        if (order !== null) {
-          order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
-          this.productSvc.getLocalCartProducts();
+    return this.getCartItemsByUserId(userID)
+      .map((order) => {
+        if (order) {
+          return order;
         }
       });
 
   }
+
 
   getCartItemsByUserId(userId: string): Observable<Order> {
     const getCartItemsUrl = 'order/new/' + userId;
@@ -96,6 +106,17 @@ export class OrderService {
     console.log('Satisfy');
     console.log(this.customerOrder);
 
+  }
+
+  updateOrderStatus(orderId: string, txnId: string, paymentMode: string): Observable<Order> {
+
+    const updateOrder = { orderId: orderId, transactionId: txnId, paymentMode: paymentMode };
+    const updateCarttUrl = 'order/status/paid';
+    return this.http
+      .post<{ order: Order }>(this.orderApi + updateCarttUrl, updateOrder)
+      .map((data) => {
+        return data.order;
+      });
   }
 
 }

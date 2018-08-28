@@ -70,7 +70,7 @@ export class ProductService {
         return {
           productUID: post._id,
           productId: post.productId,
-          productName: post.productName,
+            productName: post.productName,
           productCategory: post.productCategory,
           productPrice: post.productPrice,
           productDescription: post.productDescription,
@@ -106,8 +106,10 @@ export class ProductService {
       const existingProd = localProducts.find(p => p.productId === product.productId);
       if (existingProd !== null && existingProd !== undefined) {
         existingProd.cartQty = existingProd.cartQty + 1;
-
+      } else {
+        localProducts.push(product);
       }
+
 
     }
 

@@ -4,3 +4,11 @@ export class CreditCard {
   expiration: Number;
   cvv: Number;
 }
+
+export class Transaction {
+  userId: String;
+  status: String;
+  orderId: String;
+  createdAt: Date;
+
+}

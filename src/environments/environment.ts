@@ -4,13 +4,13 @@
 
 export const environment = {
   production: false,
-  catalogAPIUrl: 'https://ecom-catalog-api.herokuapp.com/',
-  orderApiUrl: 'https://ecom-order-api.herokuapp.com/',
-  paymentApiUrl: 'https://ecom-payment-api.herokuapp.com/'
+  // catalogAPIUrl: 'https://ecom-catalog-api.herokuapp.com/',
+  // orderApiUrl: 'https://ecom-order-api.herokuapp.com/',
+  // paymentApiUrl: 'https://ecom-payment-api.herokuapp.com/'
 
-  // catalogAPIUrl: 'http://localhost:3000/',
-  // orderApiUrl: 'http://localhost:3100/',
-  // paymentApiUrl: 'http://localhost:3200/'
+  catalogAPIUrl: 'http://localhost:3000/',
+  orderApiUrl: 'http://localhost:3100/',
+  paymentApiUrl: 'http://localhost:3200/'
 
 
 };

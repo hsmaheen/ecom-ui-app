@@ -30,42 +30,38 @@ export class BillingDetailsComponent implements OnInit {
     this.crediCard.expiration = data['expiration'];
     this.crediCard.nameOnCard = data['nameOnCard'];
 
-    // data['creditCardNumber'] = this.crediCard.creditCardNumber;
-    // data['cvv'] = this.crediCard.cvv;
-    // data['expiration'] = this.crediCard.expiration;
-    // data['nameOnCard'] = this.crediCard.nameOnCard;
+    //    this.paymentSvc.getCurrenOrder();
 
     console.log('Order is as follows');
-    this.paymentSvc.makePayment(this.crediCard)
-      .subscribe((isPaymentValid) => {
-        if (isPaymentValid) {
-          console.log('Payment Valid');
+    // this.paymentSvc.makePayment(this.crediCard)
+    //   .subscribe((isPaymentValid) => {
+    //     if (isPaymentValid) {
+    //       console.log('Payment Valid');
+    //       const toastOption: ToastOptions = {
+    //         title: 'Payment',
+    //         msg: 'Payment Completed Successfully',
+    //         showClose: true,
+    //         timeout: 5000,
+    //         theme: 'material'
+    //       };
+    //       this.toastySvc.wait(toastOption);
 
-          const toastOption: ToastOptions = {
-            title: 'Payment',
-            msg: 'Payment Completed Successfully',
-            showClose: true,
-            timeout: 5000,
-            theme: 'material'
-          };
-          this.toastySvc.wait(toastOption);
+    //     } else {
+    //       console.log('Payment InValid');
 
-        } else {
-          console.log('Payment InValid');
+    //       const toastOption: ToastOptions = {
+    //         title: 'Payment',
+    //         msg: 'Payment Failed, please try again',
+    //         showClose: true,
+    //         timeout: 5000,
+    //         theme: 'material'
+    //       };
+    //       this.toastySvc.wait(toastOption);
 
-          const toastOption: ToastOptions = {
-            title: 'Payment',
-            msg: 'Payment Failed, please try again',
-            showClose: true,
-            timeout: 5000,
-            theme: 'material'
-          };
-          this.toastySvc.wait(toastOption);
-
-        }
+    //     }
 
 
-      });
+    //   });
 
   }
 
