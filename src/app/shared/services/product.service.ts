@@ -30,7 +30,7 @@ export class ProductService {
   }
 
   getProducts() {
-    const getProductsUrl = 'api/products/';
+    const getProductsUrl = 'products/';
     this.http
       .get<{ products: any }>(
         this.catalogAPIUrl + getProductsUrl
@@ -61,7 +61,7 @@ export class ProductService {
   }
 
   getProductById(id: string): Observable<Product> {
-    const getProductUrl = 'api/products/';
+    const getProductUrl = 'products/';
     return this.http
       .get<{ message: string; product: any }>(this.catalogAPIUrl + getProductUrl + id)
       .pipe(map((postData) => {
