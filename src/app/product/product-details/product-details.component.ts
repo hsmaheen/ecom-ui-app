@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../shared/models/product';
 import { ProductService } from '../../shared/services/product.service';
+import { OrderService } from '../../shared/services/order.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,7 +15,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private orderSvc: OrderService
   ) {
     this.product = new Product();
   }
@@ -34,7 +36,30 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  addToCart(product: Product) {
+    const userID = localStorage.getItem('userID');
+    const products: Product[] = [];
+    products.push(product);
+
+    if (userID === null || userID === undefined) {
+      this.productService.addProductToLocalCart(product);
+    } else {
+      this.orderSvc.addToCart(userID, products)
+        .subscribe((data) => {
+          if (data !== null && data !== undefined) {
+            this.productService.addProductToLocalCart(product);
+          }
+        }),
+        ((err) => {
+          console.log("Error is here");
+
+        });
+
+    }
+
   }
+
+ngOnDestroy() {
+  this.sub.unsubscribe();
+}
 }
