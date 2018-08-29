@@ -56,8 +56,11 @@ export class ProductService {
       .subscribe(transformedData => {
         this.products = transformedData;
         this.productsUpdated.next([...this.products]);
+      }),
+      (err) => {
+        console.log("Get Products Error");
 
-      });
+      }
   }
 
   getProductById(id: string): Observable<Product> {
@@ -70,7 +73,7 @@ export class ProductService {
         return {
           productUID: post._id,
           productId: post.productId,
-            productName: post.productName,
+          productName: post.productName,
           productCategory: post.productCategory,
           productPrice: post.productPrice,
           productDescription: post.productDescription,

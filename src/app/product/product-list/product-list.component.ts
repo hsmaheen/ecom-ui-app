@@ -34,8 +34,11 @@ export class ProductListComponent implements OnInit {
     this.productsSub = this.productService.getProductsUpdateListener()
       .subscribe((products: Product[]) => {
         this.productList = products;
-      });
+      }),
+      ((err) => {
+        console.log("Error is here");
 
+      });
   }
 
   addToCart(product: Product) {
@@ -51,7 +54,12 @@ export class ProductListComponent implements OnInit {
           if (data !== null && data !== undefined) {
             this.productService.addProductToLocalCart(product);
           }
+        }),
+        ((err) => {
+          console.log("Error is here");
+
         });
+
     }
 
   }
