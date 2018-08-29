@@ -108,10 +108,13 @@ export class OrderService {
 
   }
 
-  updateOrderStatus(orderId: string, txnId: string, paymentMode: string): Observable<Order> {
+  updateOrderStatus(orderId: String,
+    txnId: String,
+    paymentMode: string,
+    status: String): Observable<Order> {
 
     const updateOrder = { orderId: orderId, transactionId: txnId, paymentMode: paymentMode };
-    const updateCarttUrl = 'order/status/paid';
+    const updateCarttUrl = 'order/status/' + status;
     return this.http
       .post<{ order: Order }>(this.orderApi + updateCarttUrl, updateOrder)
       .map((data) => {

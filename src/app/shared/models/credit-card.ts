@@ -6,6 +6,7 @@ export class CreditCard {
 }
 
 export class Transaction {
+  txnId: string;
   userId: String;
   status: String;
   orderId: String;

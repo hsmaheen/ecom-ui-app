@@ -31,16 +31,6 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <div>
-          <a class="nav-link" href="javascript:;;" [routerLink]="['/products/favourite-products']">
-            <i class="fa fa-heart">
-              <!-- <span class="mt-2"> {{productService.navbarFavProdCount}}</span> -->
-            </i>
-          </a>
-        </div>
-
-      </li>
-      <li class="nav-item">
-        <div>
           <a class="nav-link" href="javascript:;;" [routerLink]="['/cart']">
             <i class="fa fa-shopping-cart">
               <span class="mt-2"> {{productService.cartCount}}</span>
@@ -50,7 +40,7 @@
       </li>
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a class="nav-link" [routerLink]="['/users']">
-          <i class="fa fa-user"></i> My Account</a>
+          <i class="fa fa-user"></i> My Orders</a>
       </li>
       <li class="nav-item" *ngIf="!authService.isLoggedIn()">
         <a class="nav-link" [routerLink]="[ '/login' ]">

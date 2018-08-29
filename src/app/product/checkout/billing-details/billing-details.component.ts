@@ -5,6 +5,8 @@ import { OrderService } from '../../../shared/services/order.service';
 import { Order } from '../../../shared/models/order';
 import { PaymentService } from '../../../shared/services/payment.service';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-billing-details',
@@ -16,7 +18,9 @@ export class BillingDetailsComponent implements OnInit {
   constructor(
     private orderSvc: OrderService,
     private paymentSvc: PaymentService,
-    private toastySvc: ToastyService) { }
+    private toastySvc: ToastyService,
+    private router: Router,
+    private authSvc: AuthService) { }
 
   ngOnInit() {
 
@@ -30,38 +34,57 @@ export class BillingDetailsComponent implements OnInit {
     this.crediCard.expiration = data['expiration'];
     this.crediCard.nameOnCard = data['nameOnCard'];
 
-    //    this.paymentSvc.getCurrenOrder();
-
     console.log('Order is as follows');
-    // this.paymentSvc.makePayment(this.crediCard)
-    //   .subscribe((isPaymentValid) => {
-    //     if (isPaymentValid) {
-    //       console.log('Payment Valid');
-    //       const toastOption: ToastOptions = {
-    //         title: 'Payment',
-    //         msg: 'Payment Completed Successfully',
-    //         showClose: true,
-    //         timeout: 5000,
-    //         theme: 'material'
-    //       };
-    //       this.toastySvc.wait(toastOption);
+    this.paymentSvc.makePaymentNew(this.crediCard)
+      .subscribe((isPaymentValid) => {
+        if (isPaymentValid) {
 
-    //     } else {
-    //       console.log('Payment InValid');
+          const order = this.paymentSvc.getCurrenOrder();
+          this.paymentSvc.createTxn(order, 'PAYMENT_COMPLETED')
+            .subscribe((txn) => {
 
-    //       const toastOption: ToastOptions = {
-    //         title: 'Payment',
-    //         msg: 'Payment Failed, please try again',
-    //         showClose: true,
-    //         timeout: 5000,
-    //         theme: 'material'
-    //       };
-    //       this.toastySvc.wait(toastOption);
+              this.orderSvc.updateOrderStatus(order.orderId, txn.txnId, 'cc', 'Paid')
+                .subscribe((order) => {
 
-    //     }
+                  const toastOption: ToastOptions = {
+                    title: 'Payment',
+                    msg: 'Payment Completed Successfully',
+                    showClose: true,
+                    timeout: 5000,
+                    theme: 'material'
+                  };
+                  this.toastySvc.wait(toastOption);
+                  this.router.navigate(['./orders/user/', this.authSvc.getLoggedInUser().$key]);
+                });
+
+            });
+
+        } else {
+
+          const order = this.paymentSvc.getCurrenOrder();
+          this.paymentSvc.createTxn(order, 'PAYMENT_FAILED')
+            .subscribe((txn) => {
+
+              this.orderSvc.updateOrderStatus(order.orderId, txn.txnId, 'cc', 'PaymentFailed')
+                .subscribe((order) => {
 
 
-    //   });
+                  const toastOption: ToastOptions = {
+                    title: 'Payment',
+                    msg: 'Payment Failed, please try again',
+                    showClose: true,
+                    timeout: 5000,
+                    theme: 'material'
+                  };
+                  this.toastySvc.wait(toastOption);
+
+                });
+
+
+
+            });
+        }
+      });
 
   }
 

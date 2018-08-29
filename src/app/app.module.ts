@@ -16,6 +16,8 @@ import { CartSummaryComponent } from './product/cart-summary/cart-summary.compon
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { CheckoutModule } from './product/checkout/checkout.module';
 import { CheckoutRoutingModule } from './product/checkout/checkout.routing';
+import { UserOrdersComponent } from './order/user-orders/user-orders.component';
+import { NgHttpLoaderModule } from 'ng-http-loader'; 
 
 
 
@@ -27,7 +29,8 @@ import { CheckoutRoutingModule } from './product/checkout/checkout.routing';
     ProductListComponent,
     CartProductsComponent,
     CartSummaryComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    UserOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { CheckoutRoutingModule } from './product/checkout/checkout.routing';
     SharedModule,
     RouterModule.forRoot(AppRoutes),
     HttpClientModule,
-    CheckoutModule
+    CheckoutModule,
+    NgHttpLoaderModule
   ],
   providers: [],
   bootstrap: [AppComponent],
