@@ -6,6 +6,7 @@ import { Order } from '../models/order';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductService } from './product.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OrderService {
@@ -45,6 +46,35 @@ export class OrderService {
       // this.calculateLocalCartProdCounts();
     }
 
+  }
+
+  getOrders(userID: String): Observable<Order[]> {
+    const getOrdersUrl = 'orders/user/' + userID;
+    return this.http
+      .get<{ orders: any }>(
+        this.orderApi + getOrdersUrl
+      )
+      .pipe(map((postData) => {
+        return postData.orders.map(order => {
+          return {
+            orderId: order._id,
+            userId: order.userId,
+            status: order.status,
+            products: order.products,
+            paymentMode: order.paymentMode,
+            transactionId: order.transactionId,
+            orderAddress: order.orderAddress,
+            orderPostalCode: order.orderPostalCode,
+            createdAt: order.createdAt,
+            updatedAt: order.updatedAt
+
+
+          };
+        });
+      }))
+      .map(transformedData => {
+        return transformedData as Order[];
+      });
   }
 
   orderListener() {

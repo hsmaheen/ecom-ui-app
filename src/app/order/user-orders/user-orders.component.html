@@ -1,3 +1,52 @@
-<p>
-  user-orders works!
-</p>
+<!--Accordion wrapper-->
+<div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+  <!-- Accordion card -->
+  <ng-container *ngFor="let order of orders; let i=index">
+
+    <div class="card" *ngIf="(order.products?.length > 0)">
+
+      <!-- Card header -->
+      <div class="card-header" role="tab" id="headingOne">
+        <a data-toggle="collapse" href="#collapse{{order.orderId}}" aria-expanded="true">
+          <h5 class="mb-0">
+            Order #{{i}} - {{order.createdAt}} <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+      </div>
+
+      <!-- Card body -->
+      <div id="collapse{{order.orderId}}" class="collapse show" role="tabpanel" data-parent="#accordionEx">
+        <div class="card-body">
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let product of order.products">
+              <div>
+                <img [src]="product.productImageUrl" [alt]="product.productName" width="100" height="100">
+              </div>
+              <div style="padding: 10px">
+                <h6 class=" my-0 ">{{product.productName}}</h6>
+                <p>Product Seller : {{product.productSeller}}</p>
+              </div>
+              <span class="text-muted ">${{product.productPrice}}</span>
+            </li>
+            <hr>
+            <li class="list-group-item d-flex justify-content-between ">
+              <span>Total (USD)</span>
+              <strong>${{totalPrice}}</strong>
+            </li>
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    <!-- Accordion card -->
+
+
+  </ng-container>
+
+
+  <!-- Accordion card -->
+</div>
+<!--/.Accordion wrapper-->
+

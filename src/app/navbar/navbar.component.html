@@ -39,7 +39,7 @@
         </div>
       </li>
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a class="nav-link" [routerLink]="['/users']">
+        <a class="nav-link" [routerLink]="['/user/orders']">
           <i class="fa fa-user"></i> My Orders</a>
       </li>
       <li class="nav-item" *ngIf="!authService.isLoggedIn()">

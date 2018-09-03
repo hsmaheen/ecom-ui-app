@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Product } from '../../shared/models/product';
-import { AuthService } from '../../shared/services/auth.service';
-import { ProductService } from '../../shared/services/product.service';
-import { Subscription } from 'rxjs';
-import { OrderService } from '../../shared/services/order.service';
-import { Order } from '../../shared/models/order';
-
+import { Component, OnInit } from "@angular/core";
+import { Product } from "../../shared/models/product";
+import { AuthService } from "../../shared/services/auth.service";
+import { ProductService } from "../../shared/services/product.service";
+import { Subscription } from "rxjs";
+import { OrderService } from "../../shared/services/order.service";
+import { Order } from "../../shared/models/order";
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  selector: "app-product-list",
+  templateUrl: "./product-list.component.html",
+  styleUrls: ["./product-list.component.scss"]
 })
 export class ProductListComponent implements OnInit {
   productList: Product[];
@@ -21,9 +20,8 @@ export class ProductListComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private productService: ProductService,
-    private orderService: OrderService
-    // private spinnerService: LoaderSpinnerService
-  ) { }
+    private orderService: OrderService // private spinnerService: LoaderSpinnerService
+  ) {}
 
   ngOnInit() {
     this.getAllProducts();
@@ -31,13 +29,10 @@ export class ProductListComponent implements OnInit {
 
   getAllProducts() {
     this.productService.getProducts();
-    this.productsSub = this.productService.getProductsUpdateListener()
+    this.productsSub = this.productService
+      .getProductsUpdateListener()
       .subscribe((products: Product[]) => {
         this.productList = products;
-      }),
-      ((err) => {
-        console.log("Error is here");
-
       });
   }
 
@@ -49,19 +44,11 @@ export class ProductListComponent implements OnInit {
     if (userID === null || userID === undefined) {
       this.productService.addProductToLocalCart(product);
     } else {
-      this.orderService.addToCart(userID, products)
-        .subscribe((data) => {
-          if (data !== null && data !== undefined) {
-            this.productService.addProductToLocalCart(product);
-          }
-        }),
-        ((err) => {
-          console.log("Error is here");
-
-        });
-
+      this.orderService.addToCart(userID, products).subscribe(data => {
+        if (data !== null && data !== undefined) {
+          this.productService.addProductToLocalCart(product);
+        }
+      });
     }
-
   }
-
 }

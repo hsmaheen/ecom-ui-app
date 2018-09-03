@@ -52,6 +52,7 @@
     "owl.carousel": "^2.3.4",
     "path": "^0.12.7",
     "primeng": "^5.2.5",
+    "rimraf": "^2.6.2",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.1.0",
     "shortid": "^2.2.8",

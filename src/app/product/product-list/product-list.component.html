@@ -63,7 +63,7 @@
                       <span class="left">{{ product.productPrice }} $</span>
                       <span class="right">
 
-                        <a *ngIf="false" placement="top" mdbTooltip="Add to Cart" container="body" (click)="addToCart(product)">
+                        <a *ngIf="authService.isLoggedIn()" placement="top" mdbTooltip="Add to Cart" container="body" (click)="addToCart(product)">
                           <i class="fa fa-shopping-cart"></i>
                         </a>
 
