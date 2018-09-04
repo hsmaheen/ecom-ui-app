@@ -1,5 +1,6 @@
+import { ErrorsHandler } from './shared/error-handler';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, ErrorHandler } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -17,7 +18,7 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
 import { CheckoutModule } from './product/checkout/checkout.module';
 import { CheckoutRoutingModule } from './product/checkout/checkout.routing';
 import { UserOrdersComponent } from './order/user-orders/user-orders.component';
-import { NgHttpLoaderModule } from 'ng-http-loader'; 
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 
 
@@ -42,7 +43,10 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
     CheckoutModule,
     NgHttpLoaderModule
   ],
-  providers: [],
+  providers: [{
+      provide: ErrorHandler,
+      useClass: ErrorsHandler,
+  }],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
