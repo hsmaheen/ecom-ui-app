@@ -1,3 +1,4 @@
+import { ProductService } from './../../../shared/services/product.service';
 import { Component, OnInit } from '@angular/core';
 import { CreditCard } from '../../../shared/models/credit-card';
 import { NgForm } from '@angular/forms';
@@ -15,12 +16,23 @@ import { AuthService } from '../../../shared/services/auth.service';
 })
 export class BillingDetailsComponent implements OnInit {
   public crediCard: CreditCard = new CreditCard();
+  currentOrder: Order;
   constructor(
     private orderSvc: OrderService,
     private paymentSvc: PaymentService,
     private toastySvc: ToastyService,
     private router: Router,
-    private authSvc: AuthService) { }
+    private prodSvc: ProductService,
+    private authSvc: AuthService) {
+      this.currentOrder = this.paymentSvc.getCurrenOrder();
+      if (this.currentOrder === null || this.currentOrder === undefined) {
+        this.router.navigate(['./catalog']);
+
+
+      }
+      console.log('Current order is as follows');
+      console.log(this.currentOrder);
+     }
 
   ngOnInit() {
 
@@ -39,12 +51,11 @@ export class BillingDetailsComponent implements OnInit {
       .subscribe((isPaymentValid) => {
         if (isPaymentValid) {
 
-          const order = this.paymentSvc.getCurrenOrder();
-          this.paymentSvc.createTxn(order, 'PAYMENT_COMPLETED')
+          this.paymentSvc.createTxn(this.currentOrder, 'PAYMENT_COMPLETED')
             .subscribe((txn) => {
 
-              this.orderSvc.updateOrderStatus(order.orderId, txn.txnId, 'cc', 'Paid')
-                .subscribe((order) => {
+              this.orderSvc.updateOrderStatus(this.currentOrder.orderId, txn.txnId, 'cc', 'Paid', this.currentOrder.orderAddress)
+                .subscribe((orderData) => {
 
                   const toastOption: ToastOptions = {
                     title: 'Payment',
@@ -53,20 +64,19 @@ export class BillingDetailsComponent implements OnInit {
                     timeout: 5000,
                     theme: 'material'
                   };
+                  this.prodSvc.clearCartItem();
                   this.toastySvc.wait(toastOption);
-                  this.router.navigate(['./orders/user/', this.authSvc.getLoggedInUser().$key]);
+                  this.router.navigate(['./user/orders']);
                 });
 
             });
 
         } else {
-
-          const order = this.paymentSvc.getCurrenOrder();
-          this.paymentSvc.createTxn(order, 'PAYMENT_FAILED')
+          this.paymentSvc.createTxn(this.currentOrder, 'PAYMENT_FAILED')
             .subscribe((txn) => {
 
-              this.orderSvc.updateOrderStatus(order.orderId, txn.txnId, 'cc', 'PaymentFailed')
-                .subscribe((order) => {
+              this.orderSvc.updateOrderStatus(this.currentOrder.orderId, txn.txnId, 'cc', 'PaymentFailed', this.currentOrder.orderAddress)
+                .subscribe((orderData) => {
 
 
                   const toastOption: ToastOptions = {
@@ -76,11 +86,11 @@ export class BillingDetailsComponent implements OnInit {
                     timeout: 5000,
                     theme: 'material'
                   };
+                  this.prodSvc.clearCartItem();
                   this.toastySvc.wait(toastOption);
+                  this.router.navigate(['./user/orders']);
 
                 });
-
-
 
             });
         }

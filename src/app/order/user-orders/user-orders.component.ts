@@ -16,13 +16,12 @@ export class UserOrdersComponent implements OnInit {
   constructor(private router: Router,
     private orderSvc: OrderService) {
     this.userID = localStorage.getItem('userID');
-   
+
   }
 
 
   ngOnInit() {
     this.getOrdersBasedOnUseId();
-    
   }
 
   getOrdersBasedOnUseId() {

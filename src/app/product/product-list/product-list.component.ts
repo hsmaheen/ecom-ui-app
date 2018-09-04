@@ -46,7 +46,7 @@ export class ProductListComponent implements OnInit {
     } else {
       this.orderService.addToCart(userID, products).subscribe(data => {
         if (data !== null && data !== undefined) {
-          this.productService.addProductToLocalCart(product);
+          this.productService.addProductsToLocalCart(data.products);
         }
       });
     }

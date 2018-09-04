@@ -84,7 +84,8 @@ export class LoginComponent implements OnInit {
             this.orderSvc.getCartItemforUser()
               .subscribe((order) => {
                 if (order) {
-                  order.products.forEach(prod => this.prodSvc.addProductToLocalCart(prod));
+                  this.prodSvc.addProductsToLocalCart(order.products);
+                 // order.products.forEach(prod => this.prodSvc.addProductToLocalCart(prod));
                 }
               });
           });

@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class OrderService {
   orderApi = environment.orderApiUrl;
   private orderSubject = new Subject<Order>();
-  public customerOrder: Order = new Order();
+  public customerOrder: Order;
 
   constructor(private http: HttpClient,
     private authSvc: AuthService,
@@ -31,7 +31,8 @@ export class OrderService {
       this.getCartItemforUser()
         .subscribe((order) => {
           if (order) {
-            order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
+            this.productSvc.addProductsToLocalCart(order.products)
+            // order.products.forEach(prod => this.productSvc.addProductToLocalCart(prod));
           } else {
             console.log("Clearing cart");
             localStorage.setItem('local_prods', null);
@@ -83,6 +84,7 @@ export class OrderService {
 
   updatedOrderSubject(order: Order) {
     console.log('Updating data');
+    console.log(order);
     this.orderSubject.next(order);
   }
 
@@ -141,9 +143,10 @@ export class OrderService {
   updateOrderStatus(orderId: String,
     txnId: String,
     paymentMode: string,
-    status: String): Observable<Order> {
+    status: string,
+    address: String): Observable<Order> {
 
-    const updateOrder = { orderId: orderId, transactionId: txnId, paymentMode: paymentMode };
+    const updateOrder = { orderId: orderId, transactionId: txnId, paymentMode: paymentMode, address: address };
     const updateCarttUrl = 'order/status/' + status;
     return this.http
       .post<{ order: Order }>(this.orderApi + updateCarttUrl, updateOrder)

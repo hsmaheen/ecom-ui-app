@@ -133,6 +133,36 @@ export class ProductService {
 
   }
 
+  clearCartItem() {
+    localStorage.setItem('local_prods', null);
+    this.cartCount = 0;
+  }
+
+  addProductsToLocalCart(products: Product[]) {
+    let localProducts: Product[];
+
+    localStorage.setItem('local_prods', null);
+
+    localProducts = JSON.parse(localStorage.getItem('local_prods')) || [];
+    localProducts = products;
+
+
+
+    const toastOption: ToastOptions = {
+      title: 'Adding Product to Cart',
+      msg: 'Product Adding to the cart',
+      showClose: true,
+      timeout: 1000,
+      theme: 'material'
+    };
+    this.toastyService.wait(toastOption);
+    setTimeout(() => {
+      localStorage.setItem('local_prods', JSON.stringify(localProducts));
+      this.calculateLocalCartProdCounts();
+    }, 500);
+
+  }
+
   getLocalCartProducts(): Product[] {
     const products: Product[] =
       JSON.parse(localStorage.getItem('local_prods')) || [];

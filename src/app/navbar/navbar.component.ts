@@ -17,8 +17,9 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     public productService: ProductService,
     public orderSvc: OrderService
-  ) { }
-
+  ) {
+    this.productService.calculateLocalCartProdCounts();
+  }
 
   ngOnInit() {
   }

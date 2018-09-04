@@ -47,12 +47,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.orderSvc.addToCart(userID, products)
         .subscribe((data) => {
           if (data !== null && data !== undefined) {
-            this.productService.addProductToLocalCart(product);
+            this.productService.addProductsToLocalCart(data.products);
+           // this.productService.addProductToLocalCart(product);
           }
-        }),
-        ((err) => {
-          console.log("Error is here");
-
         });
 
     }
