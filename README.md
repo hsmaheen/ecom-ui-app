@@ -28,3 +28,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Push to Heroku
 heroku git:remote -a ecom-ui-app
+
+## Heroku App Link
+https://ecom-ui-app.herokuapp.com/ (Please give some time to load as the pods might be sleeping)
+Note : if you wish to add items to cart, you need to Sign up
