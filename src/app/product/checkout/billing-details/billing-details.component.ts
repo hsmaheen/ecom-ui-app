@@ -87,7 +87,7 @@ export class BillingDetailsComponent implements OnInit {
                     theme: 'material'
                   };
                   this.prodSvc.clearCartItem();
-                  this.toastySvc.wait(toastOption);
+                  this.toastySvc.error(toastOption);
                   this.router.navigate(['./user/orders']);
 
                 });

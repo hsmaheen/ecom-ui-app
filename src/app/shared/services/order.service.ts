@@ -50,7 +50,7 @@ export class OrderService {
   }
 
   getOrders(userID: String): Observable<Order[]> {
-    const getOrdersUrl = 'orders/user/' + userID;
+    const getOrdersUrl = 'orders/' + userID;
     return this.http
       .get<{ orders: any }>(
         this.orderApi + getOrdersUrl
@@ -101,7 +101,7 @@ export class OrderService {
 
 
   getCartItemsByUserId(userId: string): Observable<Order> {
-    const getCartItemsUrl = 'order/new/' + userId;
+    const getCartItemsUrl = 'order/active/' + userId;
     console.log(this.orderApi + getCartItemsUrl);
     return this.http
       .get<{ order: Order }>(this.orderApi + getCartItemsUrl)
@@ -114,7 +114,7 @@ export class OrderService {
 
   addToCart(userId: string, products: Product[]): Observable<Order> {
     const order = { userId: userId, products: products };
-    const addToCartUrl = 'order/cart/add';
+    const addToCartUrl = 'order/cart';
     return this.http
       .post(this.orderApi + addToCartUrl, order)
       .map((data) => {
@@ -149,7 +149,7 @@ export class OrderService {
     const updateOrder = { orderId: orderId, transactionId: txnId, paymentMode: paymentMode, address: address };
     const updateCarttUrl = 'order/status/' + status;
     return this.http
-      .post<{ order: Order }>(this.orderApi + updateCarttUrl, updateOrder)
+      .put<{ order: Order }>(this.orderApi + updateCarttUrl, updateOrder)
       .map((data) => {
         return data.order;
       });
