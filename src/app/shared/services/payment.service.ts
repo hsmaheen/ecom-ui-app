@@ -41,7 +41,7 @@ export class PaymentService {
   // }
 
   makePaymentNew(card: CreditCard) {
-    const makePaymentUrl = 'payment/make';
+    const makePaymentUrl = 'payment';
     return this.http
       .post<{ isPaymentValid: boolean }>(this.paymentApi + makePaymentUrl, card)
       .map((data) => {
@@ -55,18 +55,18 @@ export class PaymentService {
   }
 
   createTxn(order: Order, txnStatus: String) {
-    const createTxnUrl = 'payment/transaction/create';
+    const createTxnUrl = 'transaction';
     const txn = { userId: order.userId, orderId: order.orderId, status: txnStatus };
     return this.http
       .post<{ transaction: any }>(this.paymentApi + createTxnUrl, txn)
       .pipe(map((txnData) => {
-        const txn = txnData.transaction;
+        const txnObj = txnData.transaction;
         return {
-          txnId: txn._id,
-          userId: txn.userId,
-          status: txn.status,
-          orderId: txn.orderId,
-          createdAt: txn.createdAt
+          txnId: txnObj._id,
+          userId: txnObj.userId,
+          status: txnObj.status,
+          orderId: txnObj.orderId,
+          createdAt: txnObj.createdAt
         };
       }))
       .map(tranformedData => {
